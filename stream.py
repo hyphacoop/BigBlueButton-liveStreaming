@@ -153,14 +153,17 @@ def bbb_browser():
            if args.chatMsg:
                tmp_chatMsg = ' '.join(args.chatMsg).strip('"')
            element.send_keys("{0}: {1}".format(tmp_chatMsg, tmp_chatUrl))
-           chat_send.click()
+           # Disabling click due to interaction with modal form.
+           # Possibly a race condition
+           #chat_send.click()
 
         if args.chat:
            browser.execute_script("document.querySelector('[aria-label=\"User list\"]').parentElement.style.display='none';")
         else:
             element = browser.find_elements_by_id('chat-toggle-button')[0]
-            if element.is_enabled():
-                element.click()
+            #Same as above
+            #if element.is_enabled():
+            #    element.click()
     except NoSuchElementException:
         # ignore (chat might be disabled) 
         logging.info("could not find chat input or chat toggle")
