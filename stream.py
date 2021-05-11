@@ -259,7 +259,13 @@ if args.stream or args.download:
 if args.download:
     downloadProcess = download()
 if args.stream:
+    # Calculate how long the stream was. If its less then 60 seconds try again    
+    # Workaround for services like VIMEO that fail on first ffmpeg attempt
+    startTime = time.time()
     stream()
+    if (time.time() - startTime)  < 60:
+        time.sleep(5)
+        stream()
 if downloadProcess:
     downloadProcess.communicate(input=None)
 if browser:
